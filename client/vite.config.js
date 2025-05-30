@@ -1,0 +1,38 @@
+import { defineConfig } from 'vite'
+import viteReact from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
+import { resolve } from 'node:path'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    TanStackRouterVite({ autoCodeSplitting: true }),
+    viteReact(),
+    tailwindcss(),
+  ],
+  build: {
+    outDir: '../server/web',
+    emptyOutDir: true,
+  },
+  server: {
+    port: 5173,
+    proxy: {
+      // Proxy API calls to Go server during development
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
+    },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+    },
+  },
+})
