@@ -12,10 +12,6 @@ export default defineConfig({
     viteReact(),
     tailwindcss(),
   ],
-  build: {
-    outDir: '../server/web',
-    emptyOutDir: true,
-  },
   server: {
     port: 5173,
     proxy: {
